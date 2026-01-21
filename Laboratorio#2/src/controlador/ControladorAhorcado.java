@@ -20,6 +20,14 @@ public class ControladorAhorcado {
         this.vista = vista;
     }
     
+    /**
+    * Muestra el menú inicial del juego y gestiona la selección del usuario.
+    * 
+    * Este método genera una nueva palabra para la partida, inicializa los
+    * intentos y presenta las opciones del menú principal. Según la elección 
+    * del jugador, puede iniciar una nueva partida, continuar usando las palabras 
+    * ya adivinadas, mostrar el estado actual del juego o salir.
+    */
     public void menuInicio() {
         String palabra = modelo.generateNewWord();
         modelo.startNewGame(palabra, 5);
@@ -46,6 +54,18 @@ public class ControladorAhorcado {
         }
     }
     
+    /**
+    * Ejecuta una partida del juego del ahorcado usando la palabra indicada.
+    * 
+    * El método muestra el progreso del jugador, solicita letras y detiene 
+    * el ciclo cuando el jugador haya ganado o perdido. Si la palabra es 
+    * adivinada correctamente, se agrega al registro de palabras correctas.
+    *
+    * Además, si el jugador adivina 5 palabras diferentes, se muestra un mensaje 
+    * de victoria final y se reinicia el contador de palabras adivinadas.
+    *
+    * @param palabra la palabra que debe ser adivinada durante la partida.
+    */
     public void partida(String palabra) {
         int victorias = modelo.getGuessedWords().length;
         vista.mostrarEvento("¿LISTO?");

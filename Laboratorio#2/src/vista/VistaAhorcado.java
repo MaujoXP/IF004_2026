@@ -13,13 +13,14 @@ import javax.swing.JOptionPane;
 public class VistaAhorcado {
     
     /**
-    * Muestra un menú de opciones al usuario mediante un cuadro de diálogo.
+    * Muestra el menú principal del juego mediante un cuadro de diálogo
+    * y solicita al usuario ingresar una opción numérica.
     * 
-    * El método permanece en un bucle hasta que el usuario ingrese un número válido.
-    * Si el usuario ingresa un valor no numérico, se muestra un mensaje de error
-    * y se vuelve a solicitar la opción.
-    * 
-    * @return int opción seleccionada por el usuario (entre 1 y 7).
+    * El método valida que el usuario ingrese un número entero. En caso de
+    * error o ingreso inválido, vuelve a solicitar la opción hasta recibir
+    * una respuesta correcta.
+    *
+    * @return la opción seleccionada por el usuario en forma de número entero.
     */
     public int opcionMenu() {
         String msg = "1. Iniciar nueva partida\n"
@@ -36,6 +37,18 @@ public class VistaAhorcado {
         }
     }
 
+    /**
+    * Solicita al usuario ingresar un carácter para intentar adivinar la palabra.
+    * 
+    * El método valida que el usuario ingrese exactamente un carácter. Si el 
+    * usuario escribe más de uno, deja el campo vacío o cancela el cuadro de 
+    * diálogo, se muestra un mensaje de error y se solicita nuevamente.
+    * 
+    * El carácter introducido se convierte automáticamente a mayúscula antes
+    * de ser devuelto.
+    * 
+    * @return el carácter ingresado por el usuario en mayúscula.
+    */
     public char solicitarCaracter() {
         String msg = "Ingrese un carácter para adivinar";
 

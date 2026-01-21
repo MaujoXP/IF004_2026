@@ -75,6 +75,11 @@ public class Ahorcado {
         
     }
     
+    /**
+    * Obtiene una palabra aleatoria del conjunto de palabras disponibles.
+    * 
+    * @return un arreglo de caracteres que representa la palabra seleccionada.
+    */
     private char[] getRandomWord() {
         String[] palabras = words.trim().split(" & ");
         Random rdm = new Random();
@@ -83,7 +88,13 @@ public class Ahorcado {
         
         return palabra;  
     }
-    
+    /**
+    * Procesa un intento del jugador verificando si la letra pertenece
+    * a la palabra objetivo.
+    *
+    * @param letter letra ingresada por el jugador.
+    * @return true si la letra está en la palabra, false en caso contrario.
+    */
     public boolean guess(char letter) {
         boolean acierto = false;
         for(int i = 0; i < this.word.length; i++) {
@@ -98,7 +109,13 @@ public class Ahorcado {
         }
         return acierto;
     }
-    
+    /**
+    * Genera una versión de la palabra con letras adivinadas visibles
+    * y letras no encontradas como guiones bajos. Incluye también 
+    * información del ahorcado, letras intentadas y los intentos restantes.
+    *
+    * @return cadena con el estado actual de la palabra.
+    */
     public String getMaskedWord() {
         StringBuilder msg = new StringBuilder();
         msg.append(this.AHORCADO[this.attempts] + "\n");
@@ -130,6 +147,11 @@ public class Ahorcado {
         return msg.toString();
     }
     
+    /**
+    * Verifica si el jugador ha adivinado completamente la palabra.
+    *
+    * @return true si todas las letras han sido encontradas, false si falta alguna.
+    */
     public boolean isWon() {
         boolean[] encontrados = new boolean[this.word.length];
         boolean gano = false;
@@ -156,6 +178,12 @@ public class Ahorcado {
         return true;
     }
     
+    /**
+    * Verifica si el jugador ha perdido el juego.
+    * La derrota ocurre solo si no ha ganado y los intentos llegan a 0.
+    *
+    * @return true si el jugador ha perdido, false en caso contrario.
+    */
     public boolean isLost() {
         if(isWon()) {
             return false;
@@ -168,6 +196,13 @@ public class Ahorcado {
         }
     }
     
+    /**
+    * Genera una nueva palabra para la siguiente ronda, evitando aquellas
+    * que ya hayan sido adivinadas previamente.
+    *
+    * @return la nueva palabra seleccionada.
+    */
+
     public String generateNewWord() {
         String palabra = new String(getRandomWord());
         String[] palabrasAdivinadas = getGuessedWords();
@@ -180,11 +215,24 @@ public class Ahorcado {
         return palabra;
     }
     
+    /**
+    * Inicia una nueva partida configurando una nueva palabra
+    * y la cantidad máxima de intentos.
+    *
+    * @param word palabra que debe adivinarse.
+    * @param maxAttempts número máximo de intentos disponibles.
+    */
     public void startNewGame(String word, int maxAttempts) {
         setWord(word);
         setAttempts(maxAttempts);
     }
     
+    /**
+    * Devuelve el estado completo del juego, incluyendo la palabra enmascarada,
+    * las palabras adivinadas y la cantidad que faltan para ganar.
+    *
+    * @return cadena descriptiva con el estado actual del juego.
+    */
     public String gameStatus() {
         String msg = getMaskedWord();
         msg += "\nPalabras adivinadas: ";
@@ -198,14 +246,29 @@ public class Ahorcado {
         return msg;
     }
     
+    /**
+    * Establece la palabra a adivinar convirtiéndola a arreglo de caracteres.
+    *
+    * @param word palabra objetivo.
+    */
     public void setWord(String word) {
         this.word = word.toCharArray();
     }
     
+    /**
+    * Establece la cantidad de intentos restantes.
+    *
+    * @param attempts número de intentos permitidos.
+    */
     public void setAttempts(int attempts) {
         this.attempts = attempts;
     }
     
+    /**
+    * Agrega una palabra que el jugador ya adivinó correctamente.
+    *
+    * @param word palabra adivinada.
+    */
     public void addWordGuessed(String word) {
         if (this.guessedWords.isEmpty()) {
             this.guessedWords = word;
@@ -214,6 +277,12 @@ public class Ahorcado {
         }
     }
     
+    /**
+    * Agrega una nueva letra al registro de letras intentadas,
+    * evitando duplicados.
+    *
+    * @param newLetter letra que desea agregarse.
+    */
     public void addLetter(char newLetter) {
         if (this.letters == null) { 
             this.letters = new char[]{newLetter};
@@ -236,6 +305,11 @@ public class Ahorcado {
         }
     }
     
+    /**
+    * Obtiene todas las palabras que el jugador ha adivinado correctamente.
+    *
+    * @return arreglo de palabras adivinadas.
+    */
     public String[] getGuessedWords() {
         String temp = this.guessedWords.trim();
         if(temp.isEmpty()) {
@@ -245,14 +319,27 @@ public class Ahorcado {
         }
     }
     
+    /**
+    * Reinicia el registro de palabras adivinadas.
+    */
     public void resetGuessedWords() {
         this.guessedWords = "";
     }
     
+    /**
+    * Obtiene el número actual de intentos restantes.
+    *
+    * @return intentos restantes.
+    */
     public int getAttempts() {
         return this.attempts;
     }
     
+    /**
+    * Devuelve el mensaje gráfico de victoria.
+    *
+    * @return representación ASCII de victoria.
+    */
     public String getVictoryMessage() {
         return this.AHORCADO_VICTORIA;
     }
