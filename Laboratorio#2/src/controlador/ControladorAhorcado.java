@@ -20,35 +20,56 @@ public class ControladorAhorcado {
         this.vista = vista;
     }
     
-    public void inicio() {
+    public void menuInicio() {
+        String palabra = modelo.generateNewWord();
+        modelo.startNewGame(palabra, 5);
+        
+        int opcion = vista.opcionMenu();
+        switch (opcion) {
+            case 1:
+                modelo.resetGuessedWords();
+                partida(palabra);
+                break;
+            case 2:
+                partida(palabra);
+                break;
+            case 3:
+                String estado = modelo.gameStatus();
+                vista.mostrarEvento(estado);
+                menuInicio();
+                break;
+            case 4:
+                break;
+            default:
+                menuInicio();
+                break;
+        }
+    }
+    
+    public void partida(String palabra) {
         int victorias = modelo.getGuessedWords().length;
-        while(victorias < 5) {
-            String palabra = modelo.generateNewWord();
-            modelo.startNewGame(palabra, 5);
-            String estado = modelo.gameStatus();
-            vista.mostrarEvento(estado);
-            vista.mostrarEvento("¿LISTO?");
-            
-            while(!modelo.isWon() && !modelo.isLost()) {
-                String msg = modelo.getMaskedWord();
-                vista.mostrarEvento(msg);
-
-                char intento = vista.solicitarCaracter();
-                modelo.guess(intento);
-
-                // 🚨 verificar inmediatamente después del intento
-                if (modelo.isLost()) {
-                    break; // ya no pedir otra letra
-                }
-                
+        vista.mostrarEvento("¿LISTO?");
+        
+        while(true) {
+            String msg = modelo.getMaskedWord();
+            vista.mostrarEvento(msg);
+            if (modelo.isWon() || modelo.isLost()) {
+                break;
             }
-            
-            if(modelo.isWon()) {
-                victorias++;
-                modelo.addWordGuessed(palabra);
+            char intento = vista.solicitarCaracter();
+            modelo.guess(intento);
+
+        }
+        if(modelo.isWon()) {
+            victorias++;
+            modelo.addWordGuessed(palabra);
+            if(victorias == 5) {
+                String mensajeVictoria = "Has ganado\n" + modelo.getVictoryMessage();
+                vista.mostrarEvento(mensajeVictoria);
+                modelo.resetGuessedWords();
             }
         }
-        
+        menuInicio();
     }
     
 }

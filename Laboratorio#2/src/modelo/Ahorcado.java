@@ -23,9 +23,14 @@ public class Ahorcado {
             + "& IDENTIDAD CARIBEÑA & TURISMO SOSTENIBLE & PAN BON & PLAYA COCLES & PAYASOS & SOL & ARENA & "
             + "BRISA & ESPERANZA & CONVIVENCIA"; 
     private char[] word;
-    private char[] letters = new char[0];
+    private char[] letters;
     private int attempts;
     private String guessedWords = "";
+    private final String AHORCADO_VICTORIA= """
+                                            \\o/
+                                              |
+                                             / \\
+                                              """;
     private final String[] AHORCADO = {"""
     PERDISTE:P
     _________
@@ -80,16 +85,18 @@ public class Ahorcado {
     }
     
     public boolean guess(char letter) {
+        boolean acierto = false;
         for(int i = 0; i < this.word.length; i++) {
             if(this.word[i] == letter) {
-                addLetter(letter);
-                return true;
+                acierto = true;
             }
         }
-        
         addLetter(letter);
-        this.attempts--;  
-        return false;
+        
+        if(!acierto) {
+            this.attempts--;
+        }
+        return acierto;
     }
     
     public String getMaskedWord() {
@@ -153,7 +160,7 @@ public class Ahorcado {
         if(isWon()) {
             return false;
         }
-        else if(this.attempts < 0) {
+        else if(this.attempts <= 0) {
             return true;
         }
         else {
@@ -183,7 +190,7 @@ public class Ahorcado {
         msg += "\nPalabras adivinadas: ";
         String[] palabras = getGuessedWords();
         for(String palabra:palabras) {
-            msg += palabra;
+            msg += palabra + "-";
         }
         int cantidad = 5 - palabras.length;
         msg += "\nPalabras por adivinar para ganar: " + cantidad;
@@ -200,22 +207,34 @@ public class Ahorcado {
     }
     
     public void addWordGuessed(String word) {
-        this.guessedWords += word + " & ";
+        if (this.guessedWords.isEmpty()) {
+            this.guessedWords = word;
+        } else {
+            this.guessedWords += " & " + word;
+        }
     }
     
     public void addLetter(char newLetter) {
-    if(this.letters == null) { 
-        this.letters = new char[]{newLetter};
-    } else {
-        char[] nuevo = new char[this.letters.length + 1];
-        
-        for(int i = 0; i < this.letters.length; i++) {
-            nuevo[i] = this.letters[i];
+        if (this.letters == null) { 
+            this.letters = new char[]{newLetter};
+        } else {
+            boolean repetida = false;
+            
+            for(char letra:this.letters) {
+                if(letra == newLetter) {
+                    repetida = true;
+                }
+            }
+            if(!repetida) {
+                char[] nuevo = new char[this.letters.length + 1];
+                for (int i = 0; i < this.letters.length; i++) {
+                    nuevo[i] = this.letters[i];
+                }
+                nuevo[nuevo.length - 1] = newLetter;
+                this.letters = nuevo; 
+            }
         }
-        nuevo[nuevo.length - 1] = newLetter;
-        this.letters = nuevo;
     }
-}
     
     public String[] getGuessedWords() {
         String temp = this.guessedWords.trim();
@@ -226,9 +245,15 @@ public class Ahorcado {
         }
     }
     
+    public void resetGuessedWords() {
+        this.guessedWords = "";
+    }
+    
     public int getAttempts() {
         return this.attempts;
     }
     
-    
+    public String getVictoryMessage() {
+        return this.AHORCADO_VICTORIA;
+    }
 }

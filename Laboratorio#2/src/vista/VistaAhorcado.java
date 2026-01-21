@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
  * @author Meowricio
  */
 public class VistaAhorcado {
+    
     /**
     * Muestra un menú de opciones al usuario mediante un cuadro de diálogo.
     * 
@@ -20,6 +21,21 @@ public class VistaAhorcado {
     * 
     * @return int opción seleccionada por el usuario (entre 1 y 7).
     */
+    public int opcionMenu() {
+        String msg = "1. Iniciar nueva partida\n"
+                + "2. Continuar partida\n"
+                + "3. Mostrar estadisticas actuales\n"
+                + "4. Salir";
+        while(true) {
+            try{
+                int opcion = Integer.parseInt(JOptionPane.showInputDialog(msg));
+                return opcion;
+            } catch(NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Error, ingrese un número");
+            }
+        }
+    }
+
     public char solicitarCaracter() {
         String msg = "Ingrese un carácter para adivinar";
 
@@ -35,7 +51,7 @@ public class VistaAhorcado {
                 input = input.trim();
 
                 if (input.length() != 1) {
-                    JOptionPane.showMessageDialog(null, "Ingrese solo UNA letra");
+                    JOptionPane.showMessageDialog(null, "Ingrese solo una letra");
                     continue;
                 }
 

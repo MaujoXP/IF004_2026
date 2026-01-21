@@ -17,7 +17,7 @@ public class Main {
         Ahorcado modelo = new Ahorcado();
         VistaAhorcado vista = new VistaAhorcado();
         ControladorAhorcado controlador = new ControladorAhorcado(modelo, vista);
-        controlador.inicio();
+        controlador.menuInicio();
     }
         
 }
