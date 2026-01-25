@@ -16,7 +16,11 @@ public class Libro {
     private int anioPublicacion = 0;
 
     public Libro() {
-        
+        this.titulo = "Libro genérico";
+        this.autor = "Sin autor";
+        this.numeroPaginas = 50;
+        this.precio = 5000;
+        this.anioPublicacion = 2026;
     }
     
     public Libro(String titulo, String autor, int numeroPaginas, double precio, int anioPublicacion) {
@@ -28,7 +32,7 @@ public class Libro {
     }
     
     public double calcularDescuento(int descuento) {
-        double descuentoPorcentual = descuento / 100;
+        double descuentoPorcentual = descuento / 100.0;
         return this.precio * descuentoPorcentual; 
     }
     
