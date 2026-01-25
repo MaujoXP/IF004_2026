@@ -6,7 +6,7 @@ package modelo;
 
 /**
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class Libro {
     private String titulo = "";
@@ -31,15 +31,33 @@ public class Libro {
         this.anioPublicacion = anioPublicacion;
     }
     
+    /**
+    * Calcula el monto correspondiente a un descuento basado en un porcentaje.
+    *
+    * @param descuento porcentaje de descuento (0-100)
+    * @return el monto descontado aplicado al precio del libro
+    */
     public double calcularDescuento(int descuento) {
         double descuentoPorcentual = descuento / 100.0;
         return this.precio * descuentoPorcentual; 
     }
     
+    /**
+    * Verifica si el libro es considerado antiguo.
+    * Actualmente se considera antiguo si tiene más de 10 años desde su publicación.
+    *
+    * @return true si el libro es antiguo, false en caso contrario
+    */
     public boolean esAntiguo() {
         return (2026 - this.anioPublicacion) > 10;
     }
     
+    /**
+    * Verifica si el libro es considerado antiguo.
+    * Actualmente se considera antiguo si tiene más de 10 años desde su publicación.
+    *
+    * @return true si el libro es antiguo, false en caso contrario
+    */
     public boolean esCaro(double precio) {
         return precio < this.precio;
     }

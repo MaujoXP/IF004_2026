@@ -8,19 +8,15 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaLibro {
     
     /**
-    * Muestra el menú principal de la biblioteca mediante un cuadro de diálogo
-    * y solicita al usuario ingresar una opción numérica.
-    * 
-    * El método valida que el usuario ingrese un número entero. En caso de
-    * error o ingreso inválido, vuelve a solicitar la opción hasta recibir
-    * una respuesta correcta.
+    * Muestra el menú principal y solicita al usuario una opción numérica.
+    * Realiza validación para asegurar que la entrada sea un número entero.
     *
-    * @return la opción seleccionada por el usuario en forma de número entero.
+    * @return la opción seleccionada por el usuario.
     */
     public int opcionMenu() {
         String msg = "1. Agregar libro nuevo\n"
@@ -44,6 +40,12 @@ public class VistaLibro {
         }
     }
     
+    /**
+    * Solicita al usuario un texto mediante un cuadro de diálogo.
+    * Repite la solicitud hasta recibir una entrada válida y no vacía.
+    *
+    * @return el texto ingresado por el usuario.
+    */
     public String pedirString() {
         String texto;
         do {
@@ -56,6 +58,12 @@ public class VistaLibro {
         return texto.trim();
     }
     
+    /**
+    * Solicita al usuario un número entero mediante un cuadro de diálogo.
+    * Realiza validación para evitar errores por entradas inválidas.
+    *
+    * @return el número entero ingresado por el usuario.
+    */
     public int pedirInt() {
         while(true) {
             try {
@@ -67,6 +75,12 @@ public class VistaLibro {
         }
     }
     
+    /**
+    * Solicita al usuario un número decimal mediante un cuadro de diálogo.
+    * Valida que la entrada sea un número de tipo double.
+    *
+    * @return el número decimal ingresado por el usuario.
+    */
     public double pedirDouble() {
         while(true) {
             try {
@@ -78,6 +92,12 @@ public class VistaLibro {
         }
     }
     
+    /**
+    * Pregunta al usuario si desea modificar un dato específico del libro.
+    *
+    * @param nombreVariable el nombre del atributo que se desea confirmar.
+    * @return JOptionPane.YES_OPTION si el usuario acepta, NO_OPTION si rechaza.
+    */
     public int eleccionUsuario(String nombreVariable) {
         int respuesta = JOptionPane.showConfirmDialog(null, "¿Desea modificar el " + nombreVariable + "?", "Confirmación", JOptionPane.YES_NO_OPTION);
         return respuesta;

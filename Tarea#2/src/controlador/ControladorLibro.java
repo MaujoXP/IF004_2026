@@ -10,7 +10,7 @@ import vista.VistaLibro;
 
 /**
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class ControladorLibro {
     private Libro modelo;
@@ -20,6 +20,16 @@ public class ControladorLibro {
         this.modelo = modelo;
         this.vista = vista;
     }
+    
+    /**
+    * Controla el flujo principal del programa mostrando el menú al usuario
+    * y ejecutando la acción correspondiente según la opción seleccionada.
+    * Permite crear libros, mostrar información, modificar atributos y realizar
+    * cálculos como descuento, antigüedad y comparación de precio.
+    * 
+    * Este método se llama recursivamente para mantener activo el menú
+    * hasta que el usuario seleccione la opción de salir.
+    */
     public void menuInicio() {
         int opcion = vista.opcionMenu();
         String msg = "";
@@ -165,6 +175,13 @@ public class ControladorLibro {
         }
     }
     
+    /**
+    * Verifica si la opción seleccionada por el usuario corresponde a "Sí"
+    * en un cuadro de confirmación.
+    *
+    * @param opcion valor retornado por JOptionPane.showConfirmDialog
+    * @return true si el usuario seleccionó "Sí", false si seleccionó "No"
+    */
     private boolean validarOpcion(int opcion) {
         return opcion == JOptionPane.YES_OPTION;
     }
