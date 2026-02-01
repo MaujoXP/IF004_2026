@@ -12,7 +12,7 @@ import modelo.Tarjeta;
 
 /**
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class Main {
     public static void main(String[] args) {

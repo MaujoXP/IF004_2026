@@ -71,6 +71,7 @@ public class Profesor extends Persona{
     
     @Override
     public String toString() {
-        return super.toString() + "\n====Profesor====\n" + "Codigo de Empleado: " + codigoEmpleado + "\nEspecialidad: " + especialidad;
+        String curso = (this.cursoImpartido == null) ? "Sin curso" : this.cursoImpartido.getNombre();
+        return super.toString() + "\n====Profesor====\n" + "Codigo de Empleado: " + codigoEmpleado + "\nEspecialidad: " + especialidad + "\nCurso impartido: " + curso;
     }
 }

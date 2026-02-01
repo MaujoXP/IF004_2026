@@ -69,6 +69,7 @@ public class Estudiante extends Persona{
 
     @Override
     public String toString() {
-        return super.toString() + "\n====Estudiante====\n" + "Carnet: " + carnet + "\nCarrera: " + carrera;
+        String curso = (this.curso == null) ? "Sin curso" : this.curso.getNombre();
+        return super.toString() + "\n====Estudiante====\n" + "Carnet: " + carnet + "\nCarrera: " + carrera + "\nCurso: " + curso;
     }
 }
