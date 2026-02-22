@@ -1,6 +1,10 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * VistaCita es un panel gráfico encargado de gestionar la creación de citas
+ * médicas del sistema hospitalario. Permite seleccionar:
+ * - El día disponible para la cita (solo próximos 7 días)
+ * - El médico por especialidad
+ * - Las horas disponibles del médico ese día
+ * - El paciente que recibirá la cita
  */
 package vista;
 
@@ -15,29 +19,38 @@ import modelo.GestorDatos;
 import modelo.Medico;
 import modelo.Paciente;
 
-/**
+/*
+ * VistaCita es un panel gráfico encargado de gestionar la creación de citas
+ * médicas del sistema hospitalario.
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaCita extends javax.swing.JPanel {
-    
+
     private GestorDatos gestorDatos;
 
     /**
-     * Creates new form VistaCita
+     * Constructor del panel VistaCita.
+     * @param gestorDatos objeto administrador con acceso a médicos, pacientes y citas.
      */
     public VistaCita(GestorDatos gestorDatos) {
         this.gestorDatos = gestorDatos;
         initComponents();
-        
+
     }
-    
+
+    /**
+     * Inicia los listeners de los componentes visuales.
+     * Configura el comportamiento de los combos al seleccionar días o médicos.
+     */
     public void iniciarListeners() {
         colocarCitasDisponibles();
         cargarMedicos();
         cargarPacientes();
         comboDias.addActionListener(e -> {
-            if (comboDias.getSelectedItem() == null) return; // evitar null
+            if (comboDias.getSelectedItem() == null) {
+                return;
+            }
             String texto = comboDias.getSelectedItem().toString();
             String fechaStr = texto.split(" ")[1];
             LocalDate fecha = LocalDate.parse(fechaStr);
@@ -48,7 +61,9 @@ public class VistaCita extends javax.swing.JPanel {
         });
 
         comboCodigoMedico.addActionListener(e -> {
-            if (comboDias.getSelectedItem() == null) return; // evitar null
+            if (comboDias.getSelectedItem() == null) {
+                return;
+            }
             String texto = comboDias.getSelectedItem().toString();
             String fechaStr = texto.split(" ")[1];
             LocalDate fecha = LocalDate.parse(fechaStr);
@@ -57,9 +72,13 @@ public class VistaCita extends javax.swing.JPanel {
         });
 
     }
-    
+
+    /**
+     * Carga en el combo todos los médicos del sistema ordenados por especialidad.
+     */
     private void cargarMedicos() {
-        comboCodigoMedico.removeAllItems(); // limpiar antes de llenar
+        comboCodigoMedico.removeAllItems();
+
         String[] especialidades = {"Medicina General", "Pediatría", "Ortopedia", "Cardiología", "Ginecología", "Cirugía General"};
 
         for (String esp : especialidades) {
@@ -75,7 +94,10 @@ public class VistaCita extends javax.swing.JPanel {
             }
         }
     }
-    
+
+    /**
+     * Carga todos los pacientes registrados en el sistema.
+     */
     private void cargarPacientes() {
         comboPacientes.removeAllItems();
         ArrayList<Paciente> lista = gestorDatos.getPacientes();
@@ -84,12 +106,16 @@ public class VistaCita extends javax.swing.JPanel {
             comboPacientes.addItem(p.getId() + " - " + p.getNombre());
         }
     }
-    
+
+    /**
+     * Actualiza el combo de horas disponibles según el médico y el día elegido.
+     * @param fecha día seleccionado por el usuario.
+     */
     private void actualizarHorasDisponibles(LocalDate fecha) {
-        comboHoras.removeAllItems(); // limpiar antes de llenar
+        comboHoras.removeAllItems();
 
         if (comboCodigoMedico.getSelectedItem() == null) {
-            return; // evitar NullPointerException
+            return;
         }
 
         int indiceDia = fecha.getDayOfWeek().ordinal();
@@ -110,12 +136,13 @@ public class VistaCita extends javax.swing.JPanel {
         }
     }
 
-
-
+    /**
+     * Rellena los próximos 7 días como opciones para agendar citas.
+     */
     private void colocarCitasDisponibles() {
         comboDias.removeAllItems();
         LocalDate hoy = LocalDate.now();
-        LocalDate dia = hoy.plusDays(1);  // mañana
+        LocalDate dia = hoy.plusDays(1); // Dia de mañana
 
         for (int i = 0; i < 7; i++) {
             comboDias.addItem(formatearDia(dia));
@@ -123,11 +150,15 @@ public class VistaCita extends javax.swing.JPanel {
         }
 
         if (comboDias.getItemCount() > 0) {
-            comboDias.setSelectedIndex(0); // asegura que haya selección
+            comboDias.setSelectedIndex(0);
         }
     }
 
-    
+    /**
+     * Convierte la fecha a formato: "DIA YYYY-MM-DD"
+     * @param d fecha
+     * @return texto formateado
+     */
     private String formatearDia(LocalDate d) {
         String nombre = d.getDayOfWeek().toString().toUpperCase();
         return nombre + " " + d.toString();
@@ -160,8 +191,6 @@ public class VistaCita extends javax.swing.JPanel {
     public JComboBox<String> getComboPacientes() {
         return comboPacientes;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

@@ -7,16 +7,14 @@ package vista;
 import javax.swing.JButton;
 
 /**
- *
- * @author Meowricio
+ * VistaMenu representa la pantalla principal del sistema una vez que se ingresa.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaMenu extends javax.swing.JPanel {
-    
-    //private JButton btnCitas = new JButton("Citas");
-    //private JButton btnPacientes = new JButton("Pacientes");
 
     /**
-     * Creates new form VistaMenu
+     * Constructor de la vista. Solo inicializa los componentes gráficos generados por NetBeans.
      */
     public VistaMenu() {
         initComponents();
@@ -29,7 +27,7 @@ public class VistaMenu extends javax.swing.JPanel {
     public JButton getBtnRegistro() {
         return btnRegistroPaciente;
     }
-    
+
     public JButton getBtnMenu() {
         return btnMenu;
     }
@@ -57,11 +55,11 @@ public class VistaMenu extends javax.swing.JPanel {
     public JButton getBtnReportes() {
         return btnReportes;
     }
-    
-    
-    
-    
-    
+
+    public JButton getBtnEliminarArchivo() {
+        return btnEliminarArchivo;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -80,6 +78,7 @@ public class VistaMenu extends javax.swing.JPanel {
         btnReportes = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnArchivo = new javax.swing.JButton();
+        btnEliminarArchivo = new javax.swing.JButton();
 
         btnRegistro1.setText("Registro");
         btnRegistro1.setAlignmentY(0.0F);
@@ -104,6 +103,8 @@ public class VistaMenu extends javax.swing.JPanel {
 
         btnArchivo.setText("Generar Archivo");
 
+        btnEliminarArchivo.setText("Eliminar Archivo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,18 +114,16 @@ public class VistaMenu extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnRegistroMedico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnRegistroPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                    .addComponent(btnRegistroPaciente, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(btnArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnMenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnCitas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bntRegistrarObservacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnEliminarArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(46, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnArchivo)
-                .addGap(139, 139, 139))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,11 +140,13 @@ public class VistaMenu extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnReportes)
                     .addComponent(btnEliminar))
-                .addGap(18, 18, 18)
-                .addComponent(btnArchivo)
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnArchivo)
+                    .addComponent(btnEliminarArchivo))
                 .addGap(18, 18, 18)
                 .addComponent(btnMenu)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -155,6 +156,7 @@ public class VistaMenu extends javax.swing.JPanel {
     private javax.swing.JButton btnArchivo;
     private javax.swing.JButton btnCitas;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminarArchivo;
     private javax.swing.JButton btnMenu;
     private javax.swing.JButton btnRegistro1;
     private javax.swing.JButton btnRegistroMedico;

@@ -8,42 +8,65 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/**
+ * Clase encargada de gestionar la lectura, escritura y eliminación del archivo
+ * donde se almacena la información del sistema hospitalario. Permite guardar
+ * médicos, pacientes y citas en un archivo de texto, además de procesar líneas
+ * para reconstruir objetos.
+ * 
+ * @author Mauricio León Bermúdez C5G444
+ */
 public class GestorArchivo {
 
     private static final String ARCHIVO = "RegistroHospital.txt";
 
     /**
-     * Procesa una línea del archivo y devuelve el objeto correspondiente.
-     * Puede ser un Medico, Paciente o Cita.
+     * Guarda en el archivo todos los médicos, pacientes y citas proporcionados.
+     * Reemplaza el contenido previo del archivo.
+     *
+     * @param medicos Lista de médicos a guardar.
+     * @param pacientes Lista de pacientes a guardar.
+     * @param citas Lista de citas a guardar.
+     * @throws IOException Si ocurre un error al escribir el archivo.
      */
-    
     public void guardarTodo(ArrayList<Medico> medicos, ArrayList<Paciente> pacientes, ArrayList<Cita> citas) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(ARCHIVO, false))) {
             // Guardar médicos
             for (Medico m : medicos) {
-                bw.write("MEDICO;" + m.getId() + ";" + m.getCodigo() + ";" + m.getNombre() + ";" +
-                         m.getEdad() + ";" + m.getEspecialidad() + ";" + m.getTurno());
+                bw.write("MEDICO;" + m.getId() + ";" + m.getCodigo() + ";" + m.getNombre() + ";"
+                        + m.getEdad() + ";" + m.getEspecialidad() + ";" + m.getTurno());
                 bw.newLine();
             }
 
             // Guardar pacientes
             for (Paciente p : pacientes) {
-                bw.write("PACIENTE;" + p.getId() + ";" + p.getNombre() + ";" +
-                         p.getEdad() + ";" + p.getContacto());
+                bw.write("PACIENTE;" + p.getId() + ";" + p.getNombre() + ";"
+                        + p.getEdad() + ";" + p.getContacto());
                 bw.newLine();
             }
 
             // Guardar citas
             for (Cita c : citas) {
-                bw.write("CITA;" + c.getDia() + ";" + c.getHora() + ";" + c.getFecha() + ";" +
-                         c.getPaciente().getId() + ";" + c.getMedico().getCodigo() + ";" +
-                         (c.getActiva() ? "ACTIVA" : "CANCELADA") + ";" +
-                         (c.getObservaciones() == null ? "" : c.getObservaciones()));
+                bw.write("CITA;" + c.getDia() + ";" + c.getHora() + ";" + c.getFecha() + ";"
+                        + c.getPaciente().getId() + ";" + c.getMedico().getCodigo() + ";"
+                        + (c.getActiva() ? "ACTIVA" : "CANCELADA") + ";"
+                        + (c.getObservaciones() == null ? "" : c.getObservaciones()));
                 bw.newLine();
             }
         }
     }
 
+    /**
+     * Procesa una línea del archivo y reconstruye el objeto correspondiente:
+     * Médico, Paciente o Cita. También actualiza la agenda del médico si la
+     * cita está activa.
+     *
+     * @param linea Línea leída del archivo.
+     * @param medicos Lista donde se almacenan médicos ya creados.
+     * @param pacientes Lista donde se almacenan pacientes ya creados.
+     * @return El objeto creado a partir de la línea o null si no coincide con
+     * ningún tipo válido.
+     */
     public Object procesarLinea(String linea, ArrayList<Medico> medicos, ArrayList<Paciente> pacientes) {
         int id;
         int codigo;
@@ -52,7 +75,7 @@ public class GestorArchivo {
         switch (partes[0]) {
             case "MEDICO":
                 id = Integer.parseInt(partes[1]);
-                codigo= Integer.parseInt(partes[2]);
+                codigo = Integer.parseInt(partes[2]);
                 String nombreM = partes[3];
                 edad = Integer.parseInt(partes[4]);
                 String especialidad = partes[5];
@@ -75,7 +98,6 @@ public class GestorArchivo {
                 boolean activa = partes[6].trim().equalsIgnoreCase("ACTIVA");
                 String observaciones = partes.length > 7 ? partes[7] : "";
 
-                // Buscar paciente y médico ya cargados
                 Paciente p = pacientes.stream()
                         .filter(pa -> pa.getId() == idPaciente)
                         .findFirst()
@@ -88,7 +110,7 @@ public class GestorArchivo {
                 if (p != null && m != null) {
                     Cita cita = new Cita(dia, hora, m, p, fecha, activa, observaciones);
 
-                    // Si la cita está activa, ocupar espacio en el médico
+                    // Si está activo, ocupa el espacio
                     if (activa) {
                         try {
                             m.ocuparEspacio(dia, hora);
@@ -102,11 +124,14 @@ public class GestorArchivo {
 
                 break;
         }
-        return null; // si no coincide nada
+        return null;
     }
 
     /**
-     * Lee todas las líneas del archivo y devuelve una lista de ellas.
+     * Lee todas las líneas del archivo de registro y las devuelve en una lista.
+     *
+     * @return Lista de líneas encontradas en el archivo.
+     * @throws IOException Si ocurre un error al leer el archivo.
      */
     public ArrayList<String> leerLineas() throws IOException {
         ArrayList<String> lineas = new ArrayList<>();
@@ -119,5 +144,19 @@ public class GestorArchivo {
         return lineas;
     }
 
+    /**
+     * Elimina el archivo de registro si existe.
+     *
+     * @throws IOException Si el archivo no existe o no se puede eliminar.
+     */
+    public void eliminarArchivo() throws IOException {
+        File archivo = new File(ARCHIVO);
+        if (archivo.exists()) {
+            if (!archivo.delete()) {
+                throw new IOException("No se pudo eliminar el archivo.");
+            }
+        } else {
+            throw new IOException("El archivo no existe.");
+        }
+    }
 }
-

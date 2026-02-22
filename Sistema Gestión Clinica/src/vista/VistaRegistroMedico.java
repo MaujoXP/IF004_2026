@@ -10,13 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Meowricio
+ * VistaRegistroMedico es la pantalla encargada de registrar un nuevo médico
+ * dentro del sistema hospitalario.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaRegistroMedico extends javax.swing.JPanel {
 
     /**
-     * Creates new form VistaRegistroMedico
+     * Constructor de la vista. Inicializa la interfaz y rellena el combo de edad.
      */
     public VistaRegistroMedico() {
         initComponents();
@@ -57,7 +59,6 @@ public class VistaRegistroMedico extends javax.swing.JPanel {
         return txtNombre;
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -15,32 +15,44 @@ import modelo.Cita;
 import modelo.GestorDatos;
 
 /**
- *
- * @author Meowricio
+ * Panel gráfico que permite registrar observaciones médicas
+ * asociadas a una cita previamente creada.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaRegistroObservacionesMedicas extends javax.swing.JPanel {
-    
+
     private GestorDatos gestorDatos;
+
     /**
-     * Creates new form VistaRegistroObservacionesMedicas
+     * Constructor del panel.
+     * Recibe una instancia del gestor de datos para obtener las citas.
+     * 
+     * @param gestorDatos Objeto encargado de la administración de citas.
      */
     public VistaRegistroObservacionesMedicas(GestorDatos gestorDatos) {
         this.gestorDatos = gestorDatos;
         initComponents();
     }
-    
+
+    /**
+     * Carga todas las citas activas en el comboBox.
+     * Si la cita seleccionada ya tiene observaciones,
+     * las escribe automáticamente en el campo de texto.
+     * 
+     * Muestra un mensaje si no existen citas activas.
+     */
     public void cargarCitas() {
         comboCitas.removeAllItems();
-        ArrayList<Cita> citasActivas;
 
+        ArrayList<Cita> citasActivas;
         try {
-            // Solo citas activas
             citasActivas = gestorDatos.getCitasPorEstado(true);
 
             for (Cita c : citasActivas) {
                 comboCitas.addItem(
-                    c.getDia() + " - " + c.getHora() + " - " + c.getFecha() +
-                    " - " + c.getPaciente().getId() + " - " + c.getPaciente().getNombre()
+                        c.getDia() + " - " + c.getHora() + " - " + c.getFecha()
+                        + " - " + c.getPaciente().getId() + " - " + c.getPaciente().getNombre()
                 );
             }
 
@@ -56,23 +68,22 @@ public class VistaRegistroObservacionesMedicas extends javax.swing.JPanel {
 
                 Cita c = gestorDatos.getCitaPorDatos(dia, hora, fecha, id, nombre);
 
-                // Mostrar observaciones si existen
+                // Mostrar observaciones
                 if (c.getObservaciones() != null && !c.getObservaciones().isBlank()) {
                     txtObservaciones.setText(c.getObservaciones());
                 } else {
-                    txtObservaciones.setText(""); // vacío si no hay observaciones
+                    txtObservaciones.setText("");
                 }
             }
 
         } catch (NoSuchElementException ex) {
-            // Si no hay citas activas, el combo queda vacío
+            // No citas = no llena comboBox
             JOptionPane.showMessageDialog(this,
-                "No hay citas activas registradas",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE);
+                    "No hay citas activas registradas",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
 
     public GestorDatos getGestorDatos() {
         return gestorDatos;
@@ -93,8 +104,7 @@ public class VistaRegistroObservacionesMedicas extends javax.swing.JPanel {
     public JTextField getTxtObservaciones() {
         return txtObservaciones;
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

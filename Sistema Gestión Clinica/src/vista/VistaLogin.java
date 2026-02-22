@@ -7,15 +7,16 @@ package vista;
 import javax.swing.JButton;
 
 /**
- *
- * @author Meowricio
- */
+* VistaLogin representa la pantalla inicial de la aplicación,
+* permitiendo al usuario ingresar al sistema o salir del programa.
+* 
+* @author Mauricio León Bermúdez C5G444
+*/
 public class VistaLogin extends javax.swing.JPanel {
     
-    //private JButton btnIngresar = new JButton("Ingresar");
-
     /**
-     * Creates new form NewJPanel
+     * Constructor de la vista. Inicializa los componentes gráficos
+     * y asigna la acción del botón "Salir" para cerrar la aplicación.
      */
     public VistaLogin() {
         initComponents();

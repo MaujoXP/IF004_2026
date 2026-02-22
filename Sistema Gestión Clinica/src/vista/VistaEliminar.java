@@ -15,51 +15,82 @@ import modelo.Medico;
 import modelo.Paciente;
 
 /**
- *
- * @author Meowricio
+ * VistaEliminar representa la interfaz gráfica encargada de mostrar y gestionar
+ * la eliminación de registros del sistema (Pacientes, Médicos y Citas).
+ * Permite cargar listas actuales y ejecutar acciones de eliminación.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaEliminar extends javax.swing.JPanel {
-    
+
     private GestorDatos gestorDatos;
+
     /**
-     * Creates new form VistaEliminar
+     * Constructor que inicializa la vista y guarda la referencia al gestor de datos.
+     * 
+     * @param gestorDatos Objeto encargado de manejar los datos del sistema.
      */
     public VistaEliminar(GestorDatos gestorDatos) {
         this.gestorDatos = gestorDatos;
-        initComponents();      
+        initComponents();
     }
-    
+
+    /**
+     * Carga todos los ComboBox con los datos actuales del sistema:
+     * - Pacientes
+     * - Médicos
+     * - Citas activas
+     */
     public void cargarComboBox() {
         cargarPacientes();
         cargarMedicos();
         cargarCitas();
     }
+
+    /**
+     * Llena el combo de Pacientes registrados.
+     * Si no existen pacientes, muestra un mensaje de error.
+     */
     private void cargarPacientes() {
         comboPacientes.removeAllItems();
+
         ArrayList<Paciente> lista = gestorDatos.getPacientes();
-        
-        if(lista.isEmpty()) {
+
+        if (lista.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay Pacientes Registrados", "Error", JOptionPane.ERROR_MESSAGE);
         }
         for (Paciente p : lista) {
             comboPacientes.addItem(p.getId() + " - " + p.getNombre());
         }
     }
-    
+
+    /**
+     * Llena el combo de Médicos registrados.
+     * Si no hay médicos, muestra un mensaje de error.
+     */
     private void cargarMedicos() {
         comboMedicos.removeAllItems();
+
         ArrayList<Medico> lista = gestorDatos.getMedicos();
-        
-        if(lista.isEmpty()) {
+
+        if (lista.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No hay Médicos Registrados", "Error", JOptionPane.ERROR_MESSAGE);
         }
         for (Medico m : lista) {
             comboMedicos.addItem(m.getCodigo() + " - " + m.getNombre() + " (" + m.getEspecialidad() + ")");
         }
     }
-    
+
+    /**
+     * Llena el combo de Citas activas registradas.
+     * Cada cita se agrega en formato:
+     * ID PACIENTE | ID MEDICO | FECHA | HORA
+     * 
+     * En caso de que no existan citas activas, se muestra un mensaje.
+     */
     private void cargarCitas() {
         comboCitas.removeAllItems();
+
         StringBuilder msg = new StringBuilder();
 
         try {
@@ -72,7 +103,11 @@ public class VistaEliminar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
+    /**
+     * Recarga únicamente el contenido del combo de citas.
+     * Útil luego de cancelar/eliminar una cita.
+     */
     public void refrescarCitas() {
         cargarCitas();
     }
@@ -109,7 +144,6 @@ public class VistaEliminar extends javax.swing.JPanel {
         return comboPacientes;
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -8,10 +8,10 @@ import controlador.Controlador;
 
 /**
  *
- * @author Meowricio
+ * @author Mauricio León Bermúdez C5G444
  */
 public class Main {
     public static void main(String[] args) {
         Controlador controlador = new Controlador();
     }
-}
+} 

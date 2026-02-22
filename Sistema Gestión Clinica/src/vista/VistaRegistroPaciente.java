@@ -9,13 +9,17 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Meowricio
+ * Panel gráfico encargado del registro de pacientes dentro del sistema.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VistaRegistroPaciente extends javax.swing.JPanel {
 
     /**
-     * Creates new form VistaRegistroPaciente
+     * Constructor del panel de registro de pacientes.
+     * 
+     * Inicializa los componentes visuales y carga las edades
+     * desde 1 hasta 150 en el comboBox correspondiente.
      */
     public VistaRegistroPaciente() {
         initComponents();
@@ -47,8 +51,6 @@ public class VistaRegistroPaciente extends javax.swing.JPanel {
     public JTextField getTxtContacto() {
         return txtContacto;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

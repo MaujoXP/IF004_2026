@@ -24,12 +24,13 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnReportes" max="32767" attributes="0"/>
                   <Component id="btnRegistroMedico" max="32767" attributes="0"/>
                   <Component id="btnRegistroPaciente" pref="140" max="32767" attributes="0"/>
+                  <Component id="btnArchivo" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -37,13 +38,9 @@
                   <Component id="btnCitas" max="32767" attributes="0"/>
                   <Component id="bntRegistrarObservacion" max="32767" attributes="0"/>
                   <Component id="btnEliminar" max="32767" attributes="0"/>
+                  <Component id="btnEliminarArchivo" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="46" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="btnArchivo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -65,11 +62,14 @@
                   <Component id="btnReportes" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="btnArchivo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btnArchivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnEliminarArchivo" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnMenu" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="70" max="32767" attributes="0"/>
+              <EmptySpace pref="56" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -117,6 +117,11 @@
     <Component class="javax.swing.JButton" name="btnArchivo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Generar Archivo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnEliminarArchivo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Eliminar Archivo"/>
       </Properties>
     </Component>
   </SubComponents>

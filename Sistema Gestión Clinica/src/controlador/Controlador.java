@@ -32,6 +32,7 @@ import vista.VistaReporte;
  * @author Meowricio
  */
 public class Controlador implements ActionListener {
+
     private GestorDatos gestorDatos;
     private VentanaPrincipal frame;
     private VistaLogin login;
@@ -43,8 +44,7 @@ public class Controlador implements ActionListener {
     private VistaReporte vistaReporte;
     private VistaEliminar vistaEliminar;
     private GestorArchivo gestorArchivo;
-    
-    
+
     public Controlador() {
         gestorDatos = new GestorDatos();
         frame = new VentanaPrincipal();
@@ -68,6 +68,7 @@ public class Controlador implements ActionListener {
         menu.getBtnArchivo().addActionListener(this);
         menu.getBtnEliminar().addActionListener(this);
         menu.getBntRegistrarObservacion().addActionListener(this);
+        menu.getBtnEliminarArchivo().addActionListener(this);
         registroPaciente.getBtnMenu().addActionListener(this);
         registroPaciente.getBtnRegistrar().addActionListener(this);
         registroMedico.getBtnMenu().addActionListener(this);
@@ -85,131 +86,139 @@ public class Controlador implements ActionListener {
         frame.setContentPane(login);
         frame.setVisible(true);
     }
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource() == login.getBtnIngresar()) {
+        if (e.getSource() == login.getBtnIngresar()) {
             cambiarPanel(menu);
         }
 
-        if(e.getSource() == menu.getBtnCitas()) {
+        if (e.getSource() == menu.getBtnCitas()) {
             cambiarPanel(vistaCita);
             vistaCita.iniciarListeners();
         }
-        
-        if(e.getSource() == menu.getBtnMenu()) {
+
+        if (e.getSource() == menu.getBtnMenu()) {
             cambiarPanel(login);
         }
-        
-        if(e.getSource() == menu.getBtnRegistroPaciente()) {
+
+        if (e.getSource() == menu.getBtnRegistroPaciente()) {
             cambiarPanel(registroPaciente);
         }
-        
-        if(e.getSource() == menu.getBtnRegistroMedico()) {
+
+        if (e.getSource() == menu.getBtnRegistroMedico()) {
             cambiarPanel(registroMedico);
         }
-        
-        if(e.getSource() == menu.getBntRegistrarObservacion()) {
+
+        if (e.getSource() == menu.getBntRegistrarObservacion()) {
             cambiarPanel(registroObservaciones);
             registroObservaciones.cargarCitas();
         }
-        
-        if(e.getSource() == menu.getBtnReportes()) {
+
+        if (e.getSource() == menu.getBtnReportes()) {
             cambiarPanel(vistaReporte);
         }
-        
-        if(e.getSource() == menu.getBtnEliminar()) {
+
+        if (e.getSource() == menu.getBtnEliminar()) {
             cambiarPanel(vistaEliminar);
             vistaEliminar.cargarComboBox();
         }
-        
+
         if (e.getSource() == menu.getBtnArchivo()) {
             try {
                 gestorArchivo.guardarTodo(gestorDatos.getMedicos(), gestorDatos.getPacientes(), gestorDatos.getCitas());
                 JOptionPane.showMessageDialog(menu, "Datos guardados correctamente en RegistroHospital.txt");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(menu, "Error al guardar datos: " + ex.getMessage(),
-                                              "Error", JOptionPane.ERROR_MESSAGE);
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        
-        if(e.getSource() == registroPaciente.getBtnMenu()) {
+        if (e.getSource() == menu.getBtnEliminarArchivo()) {
+            try {
+                gestorArchivo.eliminarArchivo();
+                JOptionPane.showMessageDialog(menu, "Archivo eliminado correctamente.\n" + "Para ver los cambios reflejados debe reiniciar el programa,\n" + "o guardar lo actual y luego reiniciar.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(menu, "Error al eliminar archivo: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        if (e.getSource() == registroPaciente.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == registroPaciente.getBtnRegistrar()) {
+
+        if (e.getSource() == registroPaciente.getBtnRegistrar()) {
             try {
                 registrarPaciente();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(registroPaciente, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-        if(e.getSource() == registroMedico.getBtnMenu()) {
+
+        if (e.getSource() == registroMedico.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == registroMedico.getBtnRegistrar()) {
+
+        if (e.getSource() == registroMedico.getBtnRegistrar()) {
             try {
                 registrarMedico();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(registroMedico, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-        if(e.getSource() == vistaCita.getBtnMenu()) {
+
+        if (e.getSource() == vistaCita.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == vistaCita.getBtnRegistrarCita()) {
+
+        if (e.getSource() == vistaCita.getBtnRegistrarCita()) {
             try {
                 registrarCita();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(registroMedico, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-        if(e.getSource() == registroObservaciones.getBtnMenu()) {
+
+        if (e.getSource() == registroObservaciones.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == registroObservaciones.getBtnRegistrar()) {
+
+        if (e.getSource() == registroObservaciones.getBtnRegistrar()) {
             try {
                 registrarObservacion();
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(registroObservaciones, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
-        if(e.getSource() == vistaReporte.getBtnMenu()) {
+
+        if (e.getSource() == vistaReporte.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == vistaEliminar.getBtnMenu()) {
+
+        if (e.getSource() == vistaEliminar.getBtnMenu()) {
             cambiarPanel(menu);
         }
-        
-        if(e.getSource() == vistaEliminar.getBtnPaciente()) {
+
+        if (e.getSource() == vistaEliminar.getBtnPaciente()) {
             eliminarPaciente();
         }
-        
-        if(e.getSource() == vistaEliminar.getBtnMedico()) {
+
+        if (e.getSource() == vistaEliminar.getBtnMedico()) {
             eliminarMedico();
         }
-        
-        if(e.getSource() == vistaEliminar.getBtnCita()) {
+
+        if (e.getSource() == vistaEliminar.getBtnCita()) {
             cancelarCita();
         }
     }
-    
+
     private void cambiarPanel(JPanel nuevo) {
         frame.setContentPane(nuevo);
         frame.revalidate();
         frame.repaint();
     }
-    
+
     private void cargarDatosIniciales() {
         try {
             ArrayList<String> lineas = gestorArchivo.leerLineas();
@@ -228,7 +237,7 @@ public class Controlador implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error al cargar datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void registrarObservacion() {
         Object citaSel = registroObservaciones.getComboCitas().getSelectedItem();
         String observaciones = registroObservaciones.getTxtObservaciones().getText().trim();
@@ -259,13 +268,15 @@ public class Controlador implements ActionListener {
 
         String actuales = c.getObservaciones();
 
+        // Verificar si la Cita tenía Observaciones
+        // Agregar en caso que existan o Setear si no tiene
         if (actuales != null && !actuales.isBlank()) {
             if (actuales.equalsIgnoreCase(observaciones.trim())) {
                 registroObservaciones.getTxtObservaciones().setText("");
                 JOptionPane.showMessageDialog(registroObservaciones,
-                    "La observación que intenta agregar es la misma que la última registrada.\nPor favor escriba algo diferente.",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE);
+                        "La observación que intenta agregar es la misma que la última registrada.\nPor favor escriba algo diferente.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             } else {
                 c.setObservaciones(actuales + "/" + observaciones.trim());
@@ -273,15 +284,10 @@ public class Controlador implements ActionListener {
         } else {
             c.setObservaciones(observaciones.trim());
         }
-
-
-
-        
         registroObservaciones.getTxtObservaciones().setText("");
-
         JOptionPane.showMessageDialog(registroObservaciones, "Registro de Observación exitoso");
     }
-    
+
     private void eliminarPaciente() {
         Object sel = vistaEliminar.getComboPacientes().getSelectedItem();
         if (sel == null) {
@@ -292,14 +298,14 @@ public class Controlador implements ActionListener {
         int idPaciente = Integer.parseInt(sel.toString().split(" - ")[0]);
         try {
             Paciente p = gestorDatos.buscarPacientePorId(idPaciente);
-            gestorDatos.getPacientes().remove(p);
+            gestorDatos.getPacientes().remove(p); // Eliminar de la lista de Pacientes
             JOptionPane.showMessageDialog(vistaEliminar, "Paciente eliminado correctamente");
-            vistaEliminar.getComboPacientes().removeItem(sel); // refrescar combo
+            vistaEliminar.getComboPacientes().removeItem(sel); // Refrescar combobox
         } catch (NoSuchElementException ex) {
             JOptionPane.showMessageDialog(vistaEliminar, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void eliminarMedico() {
         Object sel = vistaEliminar.getComboMedicos().getSelectedItem();
         if (sel == null) {
@@ -310,9 +316,9 @@ public class Controlador implements ActionListener {
         int codigoMedico = Integer.parseInt(sel.toString().split(" - ")[0]);
         try {
             Medico m = gestorDatos.buscarMedicoPorCodigo(codigoMedico);
-            gestorDatos.getMedicos().remove(m);
+            gestorDatos.getMedicos().remove(m); // ELiminar de la lista de Medicos
             JOptionPane.showMessageDialog(vistaEliminar, "Médico eliminado correctamente");
-            vistaEliminar.getComboMedicos().removeItem(sel); // refrescar combo
+            vistaEliminar.getComboMedicos().removeItem(sel); // Refrescar combobox
         } catch (NoSuchElementException ex) {
             JOptionPane.showMessageDialog(vistaEliminar, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -331,30 +337,25 @@ public class Controlador implements ActionListener {
         LocalDate fecha = LocalDate.parse(partes[2]);
         String hora = partes[3];
 
+        // Buscar la cita exacta
         try {
-            // Buscar la cita exacta
             Cita citaCancelar = null;
             for (Cita c : gestorDatos.getCitas()) {
-                if (c.getPaciente().getId() == idPaciente &&
-                    c.getMedico().getCodigo() == codigoMedico &&
-                    c.getFecha().equals(fecha) &&
-                    c.getHora().equals(hora) &&
-                    c.getActiva()) {
+                if (c.getPaciente().getId() == idPaciente
+                        && c.getMedico().getCodigo() == codigoMedico
+                        && c.getFecha().equals(fecha)
+                        && c.getHora().equals(hora)
+                        && c.getActiva()) {
                     citaCancelar = c;
                     break;
                 }
             }
 
             if (citaCancelar != null) {
-                // 1. Marcar como cancelada
-                citaCancelar.setActiva(false);
-
-                // 2. Liberar espacio en el horario del médico
-                citaCancelar.getMedico().desocuparEspacio(citaCancelar.getDia(), citaCancelar.getHora());
-
+                citaCancelar.setActiva(false); // Anular Cita
+                citaCancelar.getMedico().desocuparEspacio(citaCancelar.getDia(), citaCancelar.getHora()); // Desocupar agenda del Medico
                 JOptionPane.showMessageDialog(vistaEliminar, "Cita cancelada correctamente");
-                // refrescar combo para que ya no aparezca en las activas
-                vistaEliminar.refrescarCitas();
+                vistaEliminar.refrescarCitas(); // Refrescar combobox
             } else {
                 JOptionPane.showMessageDialog(vistaEliminar, "No se encontró la cita seleccionada", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -363,16 +364,13 @@ public class Controlador implements ActionListener {
         }
     }
 
-
-
-
     private void registrarCita() {
         Object diaSel = vistaCita.getComboDias().getSelectedItem();
         Object medicoSel = vistaCita.getComboCodigoMedico().getSelectedItem();
         Object horaSel = vistaCita.getComboHoras().getSelectedItem();
         Object pacienteSel = vistaCita.getComboPacientes().getSelectedItem();
 
-        if(diaSel == null || medicoSel == null || horaSel == null || pacienteSel == null) {
+        if (diaSel == null || medicoSel == null || horaSel == null || pacienteSel == null) {
             JOptionPane.showMessageDialog(vistaCita, "Debe seleccionar todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -390,14 +388,14 @@ public class Controlador implements ActionListener {
 
         // Validar que no exista ya una cita activa en ese espacio
         for (Cita c : gestorDatos.getCitas()) {
-            if (c.getMedico().getCodigo() == idMedico &&
-                c.getFecha().equals(fecha) &&
-                c.getHora().equals(horaCita) &&
-                c.getActiva()) {
+            if (c.getMedico().getCodigo() == idMedico
+                    && c.getFecha().equals(fecha)
+                    && c.getHora().equals(horaCita)
+                    && c.getActiva()) {
                 JOptionPane.showMessageDialog(vistaCita,
-                    "Ya existe una cita activa en ese espacio",
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+                        "Ya existe una cita activa en ese espacio",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
         }
@@ -411,21 +409,19 @@ public class Controlador implements ActionListener {
         }
     }
 
-    
     private void registrarMedico() throws IllegalArgumentException {
         String nombre = registroMedico.getTxtNombre().getText().trim();
 
-        if(nombre.isEmpty()) {
+        if (nombre.isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
-
+        // Solo letras
         if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
             throw new IllegalArgumentException("El nombre solo puede contener letras y espacios");
         }
-        
+
         // Separar el texto por palabras
         String[] partes = nombre.split("\\s+");
-
         if (partes.length < 3) {
             throw new IllegalArgumentException("Debe ingresar al menos un nombre y dos apellidos");
         }
@@ -433,14 +429,11 @@ public class Controlador implements ActionListener {
         // Validar que las dos últimas partes sean apellidos
         String apellido1 = partes[partes.length - 2];
         String apellido2 = partes[partes.length - 1];
-
         if (apellido1.length() < 2 || apellido2.length() < 2) {
             throw new IllegalArgumentException("Los apellidos deben tener al menos 2 letras.");
         }
-        
-        // Validacion ID
-        String idTexto = registroMedico.getTxtId().getText().trim();
 
+        String idTexto = registroMedico.getTxtId().getText().trim();
         if (idTexto.isEmpty()) {
             throw new IllegalArgumentException("El ID no puede estar vacío.");
         }
@@ -456,82 +449,63 @@ public class Controlador implements ActionListener {
         }
 
         int id = Integer.parseInt(idTexto);
-        
-        // ValidarEdad
         Integer edad = (Integer) registroPaciente.getComboEdad().getSelectedItem();
-
-        if(edad == null) {
+        if (edad == null) {
             throw new IllegalArgumentException("Debe seleccionar una edad.");
         }
-        
-        // Validación código
+
         String codTexto = registroMedico.getTxtCodigo().getText().trim();
-        
         if (codTexto.isEmpty()) {
             throw new IllegalArgumentException("El código no puede estar vacío.");
         }
-
-        // Solo números
+        //Solo números
         if (!codTexto.matches("\\d+")) {
             throw new IllegalArgumentException("El código solo puede contener números.");
         }
-
-        // 4 dígitos exactos
+        // Tamaño 4
         if (codTexto.length() != 4) {
             throw new IllegalArgumentException("El código debe tener exactamente 4 dígitos.");
         }
-        
         int codigo = Integer.parseInt(codTexto);
-        
-        // Validar horario
+
         String horario = registroMedico.getComboHorario().getSelectedItem().toString();
-        
-        if(horario == null) {
+        if (horario == null) {
             throw new IllegalArgumentException("Debe seleccionar un horario");
         }
-        
-        // Validar especialidad
+
         String especialidad = registroMedico.getComboEspecialidad().getSelectedItem().toString();
-        
-        if(especialidad == null) {
+        if (especialidad == null) {
             throw new IllegalArgumentException("Debe seleccionar una especialidad");
         }
-        
+
         // Validar si existe ya
-        if(gestorDatos.existeMedicoCodigo(codigo)) {
+        if (gestorDatos.existeMedicoCodigo(codigo)) {
             JOptionPane.showMessageDialog(registroMedico, "Ya existe un medico registrado con ese código", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if(gestorDatos.existeMedico(id)) {
+        if (gestorDatos.existeMedico(id)) {
             JOptionPane.showMessageDialog(registroMedico, "Ya existe un medico registrado con esa identificación", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        
         //Registra
         gestorDatos.agregarMedico(new Medico(id, nombre, edad, codigo, especialidad, horario));
         JOptionPane.showMessageDialog(registroMedico, "Registro exitoso");
     }
-    
+
     private void registrarPaciente() throws IllegalArgumentException {
         String nombre = registroPaciente.getTxtNombre().getText().trim();
-
-        if(nombre.isEmpty()) {
+        if (nombre.isEmpty()) {
             throw new IllegalArgumentException("El nombre no puede estar vacío.");
         }
-
+        // Solo letras
         if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
             throw new IllegalArgumentException("El nombre solo puede contener letras y espacios");
         }
-        
-        // Separar el texto por palabras
         String[] partes = nombre.split("\\s+");
-
+        // Almenos 1 nombre y 2 apellidos
         if (partes.length < 3) {
             throw new IllegalArgumentException("Debe ingresar al menos un nombre y dos apellidos");
         }
-
         // Validar que las dos últimas partes sean apellidos
         String apellido1 = partes[partes.length - 2];
         String apellido2 = partes[partes.length - 1];
@@ -539,10 +513,9 @@ public class Controlador implements ActionListener {
         if (apellido1.length() < 2 || apellido2.length() < 2) {
             throw new IllegalArgumentException("Los apellidos deben tener al menos 2 letras.");
         }
-        
+
         // Validacion ID
         String idTexto = registroPaciente.getTxtId().getText().trim();
-
         if (idTexto.isEmpty()) {
             throw new IllegalArgumentException("El ID no puede estar vacío.");
         }
@@ -551,46 +524,38 @@ public class Controlador implements ActionListener {
         if (!idTexto.matches("\\d+")) {
             throw new IllegalArgumentException("El ID solo puede contener números.");
         }
-
         // 9 dígitos exactos
         if (idTexto.length() != 9) {
             throw new IllegalArgumentException("El ID debe tener exactamente 9 dígitos.");
         }
-
         int id = Integer.parseInt(idTexto);
-        
+
         // Validacion Contacto
         String contactoTexto = registroPaciente.getTxtContacto().getText().trim();
-
         if (contactoTexto.isEmpty()) {
             throw new IllegalArgumentException("El # no puede estar vacío");
         }
-
         // Solo números
         if (!contactoTexto.matches("\\d+")) {
             throw new IllegalArgumentException("El # solo puede contener números");
         }
-
         // 9 dígitos exactos
         if (contactoTexto.length() != 8) {
             throw new IllegalArgumentException("El # debe tener exactamente 8 dígitos, sin espacios");
         }
-
         int contacto = Integer.parseInt(contactoTexto);
-        
+
         // ValidarEdad
         Integer edad = (Integer) registroPaciente.getComboEdad().getSelectedItem();
-
         if (edad == null) {
             throw new IllegalArgumentException("Debe seleccionar una edad.");
         }
-        
+
         // Validar si existe ya
         if (gestorDatos.existePaciente(id)) {
             JOptionPane.showMessageDialog(registroPaciente, "Ya existe un paciente registrado con esa identificación.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
         //Registra
         gestorDatos.agregarPaciente(new Paciente(id, nombre, edad, contacto));
         JOptionPane.showMessageDialog(registroPaciente, "Registro exitoso");

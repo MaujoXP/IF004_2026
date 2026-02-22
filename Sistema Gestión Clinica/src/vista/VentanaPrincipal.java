@@ -1,17 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package vista;
 
 import java.awt.BorderLayout;
 
 /**
- *
- * @author Meowricio
+ * Ventana principal del sistema hospitalario.
+ * Esta clase representa la ventana base donde se cargará
+ * el resto de interfaces del sistema.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaPrincipal.class.getName());
 
     /**
