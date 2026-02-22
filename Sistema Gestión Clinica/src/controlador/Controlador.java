@@ -622,5 +622,5 @@ public class Controlador implements ActionListener {
         //Registra
         gestorDatos.agregarPaciente(new Paciente(id, nombre, edad, contacto));
         JOptionPane.showMessageDialog(registroPaciente, "Registro exitoso");
-    }
+    }   
 }
