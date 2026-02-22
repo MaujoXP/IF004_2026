@@ -28,8 +28,12 @@ import vista.VistaRegistroPaciente;
 import vista.VistaReporte;
 
 /**
- *
- * @author Meowricio
+ * Clase Controlador
+ * Se encarga de manejar todos los eventos de la interfaz gráfica,
+ * comunicando las vistas con el modelo. Controla los botones, validaciones,
+ * registros, eliminaciones y cambios de panel.
+ * 
+ * @author Mauricio León Bermúdez C5G444
  */
 public class Controlador implements ActionListener {
 
@@ -45,6 +49,13 @@ public class Controlador implements ActionListener {
     private VistaEliminar vistaEliminar;
     private GestorArchivo gestorArchivo;
 
+    /**
+     * Constructor:
+     * - Inicializa todas las vistas.
+     * - Carga los datos del archivo si existen.
+     * - Configura los listeners de todos los botones.
+     * - Muestra la ventana principal con el login.
+     */
     public Controlador() {
         gestorDatos = new GestorDatos();
         frame = new VentanaPrincipal();
@@ -87,6 +98,10 @@ public class Controlador implements ActionListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Detecta qué botón fue presionado y ejecuta la acción correspondiente.
+     * Cambia paneles, registra datos, elimina, guarda archivo, etc.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -213,12 +228,19 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Cambia el panel actual que muestra la ventana principal.
+     * @param nuevo Panel que se desea mostrar.
+     */
     private void cambiarPanel(JPanel nuevo) {
         frame.setContentPane(nuevo);
         frame.revalidate();
         frame.repaint();
     }
 
+    /**
+     * Carga los datos desde el archivo (si existe) al iniciar el programa.
+     */
     private void cargarDatosIniciales() {
         try {
             ArrayList<String> lineas = gestorArchivo.leerLineas();
@@ -238,6 +260,10 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Registra una observación médica asociada a una cita.
+     * Valida que exista una cita seleccionada y que el texto no esté vacío.
+     */
     private void registrarObservacion() {
         Object citaSel = registroObservaciones.getComboCitas().getSelectedItem();
         String observaciones = registroObservaciones.getTxtObservaciones().getText().trim();
@@ -288,6 +314,10 @@ public class Controlador implements ActionListener {
         JOptionPane.showMessageDialog(registroObservaciones, "Registro de Observación exitoso");
     }
 
+    /**
+     * Elimina un paciente seleccionado del sistema.
+     * Realiza validaciones básicas.
+     */
     private void eliminarPaciente() {
         Object sel = vistaEliminar.getComboPacientes().getSelectedItem();
         if (sel == null) {
@@ -306,6 +336,10 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Elimina un médico seleccionado del sistema.
+     * Realiza validaciones básicas.
+     */
     private void eliminarMedico() {
         Object sel = vistaEliminar.getComboMedicos().getSelectedItem();
         if (sel == null) {
@@ -324,6 +358,10 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Cancela una cita seleccionada. 
+     * Marca la cita como inactiva y libera el espacio en la agenda del médico.
+     */
     private void cancelarCita() {
         Object sel = vistaEliminar.getComboCitas().getSelectedItem();
         if (sel == null) {
@@ -364,6 +402,13 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Registra una cita nueva.
+     * Valida:
+     * - Selecciones
+     * - Disponibilidad del médico
+     * - Que no exista otra cita activa en ese horario
+     */
     private void registrarCita() {
         Object diaSel = vistaCita.getComboDias().getSelectedItem();
         Object medicoSel = vistaCita.getComboCodigoMedico().getSelectedItem();
@@ -409,6 +454,15 @@ public class Controlador implements ActionListener {
         }
     }
 
+    /**
+     * Registra un médico.
+     * Realiza validaciones de:
+     * - Nombre (solo letras y mínimo 3 palabras)
+     * - ID (solo números y 9 dígitos)
+     * - Código de médico (solo números y 4 dígitos)
+     * - Edad seleccionada
+     * - Que no exista un médico con ese ID o código
+     */
     private void registrarMedico() throws IllegalArgumentException {
         String nombre = registroMedico.getTxtNombre().getText().trim();
 
@@ -492,6 +546,15 @@ public class Controlador implements ActionListener {
         JOptionPane.showMessageDialog(registroMedico, "Registro exitoso");
     }
 
+    /**
+     * Registra un paciente nuevo.
+     * Realiza validaciones de:
+     * - Nombre con 1 nombre y 2 apellidos
+     * - ID con 9 dígitos numéricos
+     * - Número de contacto con 8 dígitos
+     * - Edad seleccionada
+     * - Que no exista un paciente registrado con ese ID
+     */
     private void registrarPaciente() throws IllegalArgumentException {
         String nombre = registroPaciente.getTxtNombre().getText().trim();
         if (nombre.isEmpty()) {
